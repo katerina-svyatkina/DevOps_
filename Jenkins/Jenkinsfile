@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Prepare Environment') {
+            steps {
+                echo 'Running Ansible role: deploy'
+                sh '''
+                cd /project
+                ansible-playbook playbook.yml --tags deploy
+                '''
+            }
+        }
+
+        stage('Start Applications') {
+            steps {
+                echo 'Running Ansible role: start'
+                sh '''
+                cd /project
+                ansible-playbook playbook.yml --tags start
+                '''
+            }
+        }
+    }
+}
